@@ -5,6 +5,9 @@ import Note from "./Components/Note/Note";
 import Folder from "./Components/Folder/Folder";
 import Header from "./Components/Header/Header";
 import NotFound from "./Components/NotFound/NotFound";
+import SideBar from './Components/SideBar/SideBar';
+import Main from './Components/Main/Main';
+
 
 class App extends Component {
   state = {
@@ -145,11 +148,21 @@ class App extends Component {
           <Header />
           <Switch>
             <Route exact path="/">
-              <MainView folders={this.state.folders} notes={this.state.notes} />
+              <MainView>
+                <SideBar folders={this.state.folders} />
+                <Main notes={this.state.notes} />
+              </MainView>
             </Route>
-            <Route path="/note/:notesId">
-              <Note notes={this.state.notes} />
-            </Route>
+            <Route
+              path="/note/:notesId"
+              render={(props) => (
+                <Note
+                  {...props}
+                  notes={this.state.notes}
+                  folders={this.state.folders}
+                />
+              )}
+            ></Route>
             <Route
               path="/folder/:folderId"
               render={(props) => (
