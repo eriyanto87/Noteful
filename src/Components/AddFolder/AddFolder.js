@@ -37,7 +37,12 @@ class AddForm extends Component {
         <h3>Add Folder</h3>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <p>Name</p>
-          <input type="text" id="name" placeholder="Name of folder"></input>
+          <input
+            type="text"
+            id="name"
+            placeholder="Name of folder"
+            required
+          ></input>
           <p>
             <button type="submit">Submit</button>
             <button onClick={this.props.history.goBack} type="cancel">
