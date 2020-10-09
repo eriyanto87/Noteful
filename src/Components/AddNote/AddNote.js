@@ -64,7 +64,7 @@ class AddNote extends Component {
           </p>
           <p>
             <label>Content </label>
-            <input type="text" id="content" />
+            <input type="text" id="content" required />
           </p>
           <p>
             <label>Folder </label>
