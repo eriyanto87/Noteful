@@ -27,7 +27,7 @@ class AddForm extends Component {
         history.push("/");
       })
       .catch((e) => {
-        throw new Error("new folder creation failed");
+        console.log(e.message);
       });
   };
 

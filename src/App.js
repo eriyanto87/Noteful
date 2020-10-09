@@ -32,7 +32,7 @@ class App extends Component {
         });
       })
       .catch((e) => {
-        throw new Error("unable to get folders!");
+        console.log(e);
       });
   };
 
@@ -45,7 +45,7 @@ class App extends Component {
         });
       })
       .catch((e) => {
-        throw new Error("unable to get notes!");
+        console.log(e);
       });
   };
 
