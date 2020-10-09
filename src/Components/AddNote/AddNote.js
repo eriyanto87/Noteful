@@ -37,7 +37,7 @@ class AddNote extends Component {
         history.push("/");
       })
       .catch((e) => {
-        throw new Error("new folder creation failed");
+        throw new Error("new note creation failed");
       });
   };
 
