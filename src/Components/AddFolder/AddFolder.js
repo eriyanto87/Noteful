@@ -10,7 +10,8 @@ class AddForm extends Component {
     e.preventDefault();
     console.log(this.context.url);
     const name = e.target.name.value;
-    this.addFolder({ name: name });
+    console.log(name);
+    this.addFolder({ folder_name: name });
   };
 
   addFolder = (name) => {

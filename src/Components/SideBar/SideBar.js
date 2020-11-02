@@ -9,15 +9,15 @@ class SideBar extends Component {
     const template = this.props.folders ? (
       <div>
         <ul className="folder-list-ul"></ul>
-        {this.props.folders.map((folder) => (
-          <Link key={folder.id} to={{ pathname: `/folder/${folder.id}` }}>
-            <li className="folder-list">{folder.name}</li>
+        {this.context.folders.map((folder) => (
+          <Link key={folder.id} to={{ pathname: `/folders/${folder.id}` }}>
+            <li className="folder-list">{folder.folder_name}</li>
           </Link>
         ))}
       </div>
     ) : (
       <>
-        <h3>{this.props.targetFolder[0].name}</h3>
+        <h3>{this.props.targetFolder[0].folder_name}</h3>
         <button
           type="button"
           onClick={() => {

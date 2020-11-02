@@ -17,12 +17,12 @@ class Main extends Component {
             </Link>
           </p>
         </h3>
-        {this.props.notes.map((note) => (
+        {this.context.notes.map((note) => (
           <div key={note.id}>
-            <Link key={note.id} to={{ pathname: `/note/${note.id}` }}>
-              <h3>Name: {note.name}</h3>
+            <Link key={note.id} to={{ pathname: `/notes/${note.id}` }}>
+              <h3>Name: {note.notes_name}</h3>
             </Link>
-            <p>Date modified: {note.modified}</p>
+            <p>Date modified: {note.date_modified}</p>
             <button
               onClick={() => {
                 this.context.deleteNote(note.id);

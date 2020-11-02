@@ -9,21 +9,34 @@ export default class Note extends Component {
   render() {
     const { match } = this.props;
     const { notes, folders } = this.context;
+    console.log(this.context);
 
     const notesId = match.params.notesId;
-    const note = notes.filter((note) => note.id === notesId);
+    console.log(notesId);
 
-    const folderId = note[0].folderId;
+    const note = notes.filter((note) => note.id == notesId);
+    console.log(note);
+
+    if (note.length === 0) {
+      return <p>Loading</p>;
+    }
+
+    const folderId = note[0].folder_id;
+    console.log(folderId);
     const targetFolder = folders.filter((folder) => folder.id === folderId);
+    console.log(targetFolder[0]);
 
+    if (targetFolder.length === 0) {
+      return <p>loading</p>;
+    }
     return (
       <div>
         <ErrorBoundary message="SideBar Failed To Load">
           <SideBar targetFolder={targetFolder} />
-          <h3>Name: {note[0].name}</h3>
-          <p>Date Modified: {note[0].modified} </p>
+          <h3>Name: {note[0].notes_name}</h3>
+          <p>Date Modified: {note[0].date_modified} </p>
           <p>Content:</p>
-          <p>{note[0].content}</p>
+          <p>{note[0].notes_content}</p>
         </ErrorBoundary>
       </div>
     );

@@ -16,11 +16,7 @@ class App extends Component {
   state = {
     folders: [],
     notes: [],
-    url: "http://localhost:9090",
-    updateStore: () => {
-      this.getFolders();
-      this.getNotes();
-    },
+    url: "http://localhost:8000/api",
   };
 
   getFolders = () => {
@@ -40,6 +36,7 @@ class App extends Component {
     fetch(`${this.state.url}/notes`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         this.setState({
           notes: data,
         });
@@ -68,12 +65,19 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.state.updateStore();
+    this.getNotes();
+    this.getFolders();
   }
 
   render() {
     return (
-      <Context.Provider value={{ ...this.state, deleteNote: this.deleteNote }}>
+      <Context.Provider
+        value={{
+          notes: this.state.notes,
+          folders: this.state.folders,
+          deleteNote: this.deleteNote,
+        }}
+      >
         <div className="App">
           <BrowserRouter>
             <Header />
@@ -84,8 +88,8 @@ class App extends Component {
                   <Main notes={this.state.notes} />
                 </Home>
               </Route>
-              <Route path="/note/:notesId" component={Note}></Route>
-              <Route path="/folder/:folderId" component={Folder}></Route>
+              <Route path="/notes/:notesId" component={Note}></Route>
+              <Route path="/folders/:folderId" component={Folder}></Route>
               <Route path="/add-folder" component={AddFolder}></Route>
               <Route path="/add-note">
                 <AddNote folders={this.state.folders} />
