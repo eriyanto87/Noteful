@@ -14,7 +14,7 @@ export default class Note extends Component {
     const notesId = match.params.notesId;
     console.log(notesId);
 
-    const note = notes.filter((note) => note.id == notesId);
+    const note = notes.filter((note) => note.id === Number(notesId));
     console.log(note);
 
     if (note.length === 0) {

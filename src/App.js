@@ -11,16 +11,36 @@ import Context from "./Components/Context/Context";
 import "./App.css";
 import AddFolder from "./Components/AddFolder/AddFolder";
 import AddNote from "./Components/AddNote/AddNote";
+import { API_ENDPOINT } from "./config";
 
 class App extends Component {
   state = {
     folders: [],
     notes: [],
-    url: "http://localhost:8000/api",
+    addFolder: (folder) =>
+      this.setState({ folders: [...this.state.folders, folder] }),
+    addNote: (note) => this.setState({ notes: [...this.state.notes, note] }),
+    deleteNote: (id) => {
+      fetch(`${API_ENDPOINT}/notes/${id}`, {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((data) => {
+          const notes = this.state.notes.filter((note) => note.id !== id);
+          this.setState({
+            notes: notes,
+          });
+        })
+        .catch((e) => {
+          throw new Error("note deletion failed!");
+        });
+    },
   };
 
   getFolders = () => {
-    fetch(`${this.state.url}/folders`)
+    fetch(`${API_ENDPOINT}/folders`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({
@@ -33,7 +53,7 @@ class App extends Component {
   };
 
   getNotes = () => {
-    fetch(`${this.state.url}/notes`)
+    fetch(`${API_ENDPOINT}/notes`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -46,24 +66,6 @@ class App extends Component {
       });
   };
 
-  deleteNote = (id) => {
-    fetch(`${this.state.url}/notes/${id}`, {
-      method: "DELETE",
-      headers: {
-        "content-type": "application/json",
-      },
-    })
-      .then((data) => {
-        const notes = this.state.notes.filter((note) => note.id !== id);
-        this.setState({
-          notes: notes,
-        });
-      })
-      .catch((e) => {
-        throw new Error("note deletion failed!");
-      });
-  };
-
   componentDidMount() {
     this.getNotes();
     this.getFolders();
@@ -71,21 +73,15 @@ class App extends Component {
 
   render() {
     return (
-      <Context.Provider
-        value={{
-          notes: this.state.notes,
-          folders: this.state.folders,
-          deleteNote: this.deleteNote,
-        }}
-      >
+      <Context.Provider value={this.state}>
         <div className="App">
           <BrowserRouter>
             <Header />
             <Switch>
               <Route exact path="/">
                 <Home>
-                  <SideBar folders={this.state.folders} />
-                  <Main notes={this.state.notes} />
+                  <SideBar />
+                  <Main />
                 </Home>
               </Route>
               <Route path="/notes/:notesId" component={Note}></Route>

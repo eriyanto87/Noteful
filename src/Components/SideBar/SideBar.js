@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 class SideBar extends Component {
   static contextType = Context;
   render() {
-    const template = this.props.folders ? (
+    const template = this.context.folders ? (
       <div>
         <ul className="folder-list-ul"></ul>
         {this.context.folders.map((folder) => (
@@ -47,7 +47,6 @@ class SideBar extends Component {
 }
 
 SideBar.propTypes = {
-  folders: PropTypes.array.isRequired,
   history: PropTypes.object.isRequired,
 };
 

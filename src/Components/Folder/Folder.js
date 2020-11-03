@@ -9,7 +9,6 @@ export default class Folder extends Component {
   static contextType = Context;
 
   render() {
-    const { folders, notes } = this.context;
     const { match } = this.props;
     const folderId = match.params.folderId;
     console.log(folderId);
@@ -17,14 +16,10 @@ export default class Folder extends Component {
     return (
       <div>
         <ErrorBoundary message="SideBar Failed To Load">
-          <SideBar folders={folders} />
+          <SideBar />
         </ErrorBoundary>
         <ErrorBoundary message="Main Faied To Load">
-          <Main
-            notes={notes.filter((note) => {
-              return folderId.includes(note.folder_id);
-            })}
-          />
+          <Main folderId={folderId} />
         </ErrorBoundary>
       </div>
     );

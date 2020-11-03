@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import Context from "../Context/Context";
 import PropTypes from "prop-types";
+import { API_ENDPOINT } from "../../config";
 
 class AddNote extends Component {
   static contextType = Context;
@@ -14,27 +15,22 @@ class AddNote extends Component {
     const folderId = e.target.folderId.value;
 
     const data = {
-      name: name,
-      content: content,
-      modified: new Date(),
-      folderId: folderId,
+      notes_name: name,
+      notes_content: content,
+      folder_id: folderId,
     };
 
-    this.addFolder(data);
-  };
-
-  addFolder = (data) => {
-    const { history } = this.props;
-    fetch(`${this.context.url}/notes/`, {
+    fetch(`${API_ENDPOINT}/notes/`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify(data),
     })
+      .then((res) => res.json())
       .then((data) => {
-        this.context.updateStore();
-        history.push("/");
+        this.context.addNote(data);
+        this.props.history.push("/");
       })
       .catch((e) => {
         console.log(e.message);
@@ -42,12 +38,12 @@ class AddNote extends Component {
   };
 
   getFolder = () => {
-    const { folders } = this.props;
+    const { folders } = this.context;
 
     return folders.map((folder, i) => {
       return (
         <option key={i} value={folder.id}>
-          {folder.name}
+          {folder.folder_name}
         </option>
       );
     });

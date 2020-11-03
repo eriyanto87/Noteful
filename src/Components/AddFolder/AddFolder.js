@@ -2,30 +2,26 @@ import React, { Component } from "react";
 import Context from "../Context/Context";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import { API_ENDPOINT } from "../../config";
 
 class AddForm extends Component {
   static contextType = Context;
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.context.url);
     const name = e.target.name.value;
-    console.log(name);
-    this.addFolder({ folder_name: name });
-  };
 
-  addFolder = (name) => {
-    const { history } = this.props;
-    fetch(`${this.context.url}/folders/`, {
+    fetch(`${API_ENDPOINT}/folders/`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify(name),
+      body: JSON.stringify({ folder_name: name }),
     })
+      .then((res) => res.json())
       .then((data) => {
-        this.context.updateStore();
-        history.push("/");
+        this.context.addFolder(data);
+        this.props.history.push("/");
       })
       .catch((e) => {
         console.log(e.message);

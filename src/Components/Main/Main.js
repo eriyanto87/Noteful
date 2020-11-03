@@ -7,6 +7,11 @@ class Main extends Component {
   static contextType = Context;
 
   render() {
+    const notes = this.props.folderId
+      ? this.context.notes.filter(
+          (n) => n.folder_id === Number(this.props.folderId)
+        )
+      : this.context.notes;
     return (
       <div className="main">
         <h3 className="notes-title">
@@ -17,7 +22,7 @@ class Main extends Component {
             </Link>
           </p>
         </h3>
-        {this.context.notes.map((note) => (
+        {notes.map((note) => (
           <div key={note.id}>
             <Link key={note.id} to={{ pathname: `/notes/${note.id}` }}>
               <h3>Name: {note.notes_name}</h3>
@@ -40,7 +45,6 @@ class Main extends Component {
 
 Main.propTypes = {
   history: PropTypes.object.isRequired,
-  notes: PropTypes.array.isRequired,
 };
 
 export default withRouter(Main);
