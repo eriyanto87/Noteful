@@ -56,7 +56,6 @@ class App extends Component {
     fetch(`${API_ENDPOINT}/notes`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         this.setState({
           notes: data,
         });
